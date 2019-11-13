@@ -1,0 +1,25 @@
+{
+  "secretSantaApp": {
+    "wish": {
+      "home": {
+        "title": "Wishes",
+        "createLabel": "Create a new Wish",
+        "createOrEditLabel": "Create or edit a Wish",
+        "notFound": "No Wishes found"
+      },
+      "created": "A new Wish is created with identifier {{ param }}",
+      "updated": "A Wish is updated with identifier {{ param }}",
+      "deleted": "A Wish is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Wish {{ id }}?"
+      },
+      "detail": {
+        "title": "Wish"
+      },
+      "name": "Name",
+      "url": "Url",
+      "member": "Member",
+      "event": "Event"
+    }
+  }
+}

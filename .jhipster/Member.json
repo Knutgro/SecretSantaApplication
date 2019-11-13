@@ -1,0 +1,67 @@
+{
+    "name": "Member",
+    "fields": [
+        {
+            "fieldName": "firstName",
+            "javadoc": "The firstname attribute.",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "lastName",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "user",
+            "otherEntityRelationshipName": "member",
+            "relationshipName": "user",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "wish",
+            "otherEntityRelationshipName": "member",
+            "relationshipName": "wish"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "event",
+            "otherEntityRelationshipName": "owned",
+            "relationshipName": "owner"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "gift",
+            "otherEntityRelationshipName": "giftedGift",
+            "relationshipName": "gifter"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "gift",
+            "otherEntityRelationshipName": "receivedGift",
+            "relationshipName": "receiver"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "event",
+            "otherEntityRelationshipName": "member",
+            "relationshipName": "event",
+            "otherEntityField": "id",
+            "ownerSide": false
+        }
+    ],
+    "changelogDate": "20191113185643",
+    "javadoc": "The Employee entity.",
+    "entityTableName": "member",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": "*"
+}

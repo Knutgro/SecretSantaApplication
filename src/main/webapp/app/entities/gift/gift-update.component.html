@@ -1,0 +1,45 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-gift-heading" jhiTranslate="secretSantaApp.gift.home.createOrEditLabel">Create or edit a Gift</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!editForm.get('id').value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="secretSantaApp.gift.giftedGift" for="field_giftedGift">Gifted Gift</label>
+                    <select class="form-control" id="field_giftedGift" name="giftedGift" formControlName="giftedGift">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="memberOption.id === editForm.get('giftedGift').value?.id ? editForm.get('giftedGift').value : memberOption" *ngFor="let memberOption of members; trackBy: trackMemberById">{{memberOption.id}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="secretSantaApp.gift.receivedGift" for="field_receivedGift">Received Gift</label>
+                    <select class="form-control" id="field_receivedGift" name="receivedGift" formControlName="receivedGift">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="memberOption.id === editForm.get('receivedGift').value?.id ? editForm.get('receivedGift').value : memberOption" *ngFor="let memberOption of members; trackBy: trackMemberById">{{memberOption.id}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="secretSantaApp.gift.event" for="field_event">Event</label>
+                    <select class="form-control" id="field_event" name="event" formControlName="event">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="eventOption.id === editForm.get('event').value?.id ? editForm.get('event').value : eventOption" *ngFor="let eventOption of events; trackBy: trackEventById">{{eventOption.id}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

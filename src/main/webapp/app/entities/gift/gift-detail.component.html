@@ -1,0 +1,41 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="gift">
+            <h2><span jhiTranslate="secretSantaApp.gift.detail.title">Gift</span> {{gift.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="secretSantaApp.gift.giftedGift">Gifted Gift</span></dt>
+                <dd>
+                    <div *ngIf="gift.giftedGift">
+                        <a [routerLink]="['/member', gift.giftedGift?.id, 'view']">{{gift.giftedGift?.id}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="secretSantaApp.gift.receivedGift">Received Gift</span></dt>
+                <dd>
+                    <div *ngIf="gift.receivedGift">
+                        <a [routerLink]="['/member', gift.receivedGift?.id, 'view']">{{gift.receivedGift?.id}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="secretSantaApp.gift.event">Event</span></dt>
+                <dd>
+                    <div *ngIf="gift.event">
+                        <a [routerLink]="['/event', gift.event?.id, 'view']">{{gift.event?.id}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/gift', gift.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
