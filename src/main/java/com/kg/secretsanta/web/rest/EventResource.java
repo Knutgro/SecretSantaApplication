@@ -1,7 +1,11 @@
 package com.kg.secretsanta.web.rest;
 
 import com.kg.secretsanta.domain.Event;
+import com.kg.secretsanta.domain.Member;
+import com.kg.secretsanta.domain.User;
 import com.kg.secretsanta.repository.EventRepository;
+import com.kg.secretsanta.repository.MemberRepository;
+import com.kg.secretsanta.service.UserService;
 import com.kg.secretsanta.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -10,14 +14,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional; 
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * REST controller for managing {@link com.kg.secretsanta.domain.Event}.
@@ -35,9 +41,13 @@ public class EventResource {
     private String applicationName;
 
     private final EventRepository eventRepository;
+    private final MemberRepository memberRepository;
+    private final UserService userService;
 
-    public EventResource(EventRepository eventRepository) {
+    public EventResource(EventRepository eventRepository, MemberRepository memberRepository, UserService userService) {
         this.eventRepository = eventRepository;
+        this.memberRepository = memberRepository;
+        this.userService = userService;
     }
 
     /**
@@ -53,6 +63,7 @@ public class EventResource {
         if (event.getId() != null) {
             throw new BadRequestAlertException("A new event cannot already have an ID", ENTITY_NAME, "idexists");
         }
+
         Event result = eventRepository.save(event);
         return ResponseEntity.created(new URI("/api/events/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -89,7 +100,10 @@ public class EventResource {
     @GetMapping("/events")
     public List<Event> getAllEvents(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get all Events");
-        return eventRepository.findAllWithEagerRelationships();
+        final Optional<User> isUser = userService.getUserWithAuthorities();
+        Set<Member> members = new HashSet<>();
+        members.add(memberRepository.findMemberByUser(isUser));
+        return eventRepository.findAllByMembers(members);
     }
 
     /**

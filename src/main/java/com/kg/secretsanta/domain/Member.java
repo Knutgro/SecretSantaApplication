@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * The Employee entity.
+ * The Member entity.
  */
 @ApiModel(description = "The Employee entity.")
 @Entity
@@ -37,7 +37,6 @@ public class Member implements Serializable {
     private String lastName;
 
     @OneToOne(fetch = FetchType.LAZY)
-
     @JoinColumn(unique = true)
     private User user;
 
@@ -61,6 +60,15 @@ public class Member implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JsonIgnore
     private Set<Event> events = new HashSet<>();
+
+    public Member(String firstName, String lastName, User user) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.user = user;
+    }
+
+    public Member() {
+    }
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {

@@ -2,8 +2,10 @@ package com.kg.secretsanta.service;
 
 import com.kg.secretsanta.config.Constants;
 import com.kg.secretsanta.domain.Authority;
+import com.kg.secretsanta.domain.Member;
 import com.kg.secretsanta.domain.User;
 import com.kg.secretsanta.repository.AuthorityRepository;
+import com.kg.secretsanta.repository.MemberRepository;
 import com.kg.secretsanta.repository.UserRepository;
 import com.kg.secretsanta.security.AuthoritiesConstants;
 import com.kg.secretsanta.security.SecurityUtils;
@@ -42,11 +44,14 @@ public class UserService {
 
     private final CacheManager cacheManager;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, CacheManager cacheManager) {
+    private final MemberRepository memberRepository;
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, CacheManager cacheManager, MemberRepository memberRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
+        this.memberRepository = memberRepository;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -117,6 +122,11 @@ public class UserService {
         authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
         newUser.setAuthorities(authorities);
         userRepository.save(newUser);
+        /**
+         * Creating member when new user is created
+         */
+        Member newMember = new Member(newUser.getFirstName(),newUser.getLastName(), newUser);
+        memberRepository.save(newMember);
         this.clearUserCaches(newUser);
         log.debug("Created Information for User: {}", newUser);
         return newUser;
@@ -158,6 +168,8 @@ public class UserService {
             user.setAuthorities(authorities);
         }
         userRepository.save(user);
+        Member newMember = new Member(user.getFirstName(),user.getLastName(), user);
+        memberRepository.save(newMember);
         this.clearUserCaches(user);
         log.debug("Created Information for User: {}", user);
         return user;
