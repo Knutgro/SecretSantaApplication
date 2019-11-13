@@ -1,0 +1,80 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="secretSantaApp.event.home.title">Events</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-event" [routerLink]="['/event/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span  jhiTranslate="secretSantaApp.event.home.createLabel">
+            Create a new Event
+            </span>
+        </button>
+    </h2>
+    <jhi-alert-error></jhi-alert-error>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="alert alert-warning" *ngIf="events?.length === 0">
+        <span jhiTranslate="secretSantaApp.event.home.notFound">No events found</span>
+    </div>
+    <div class="table-responsive" *ngIf="events?.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+            <tr>
+            <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
+            <th scope="col" ><span jhiTranslate="secretSantaApp.event.name">Name</span></th>
+            <th scope="col" ><span jhiTranslate="secretSantaApp.event.maxLimit">Max Limit</span></th>
+            <th scope="col" ><span jhiTranslate="secretSantaApp.event.minLimit">Min Limit</span></th>
+            <th scope="col" ><span jhiTranslate="secretSantaApp.event.dateCreated">Date Created</span></th>
+            <th scope="col" ><span jhiTranslate="secretSantaApp.event.dateExpired">Date Expired</span></th>
+            <th scope="col" ><span jhiTranslate="secretSantaApp.event.owner">Owner</span></th>
+            <th scope="col" ><span jhiTranslate="secretSantaApp.event.member">Member</span></th>
+            <th scope="col" ><span jhiTranslate="secretSantaApp.event.owned">Owned</span></th>
+            <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let event of events ;trackBy: trackId">
+                <td><a [routerLink]="['/event', event.id, 'view' ]">{{event.id}}</a></td>
+                <td>{{event.name}}</td>
+                <td>{{event.maxLimit}}</td>
+                <td>{{event.minLimit}}</td>
+                <td>{{event.dateCreated | date:'medium'}}</td>
+                <td>{{event.dateExpired | date:'medium'}}</td>
+                <td>{{event.owner}}</td>
+                <td>
+                    <span *ngFor="let member of event.members; let last = last">
+                            <a class="form-control-static" [routerLink]="['/member', member?.id, 'view' ]">{{member.id}}</a>{{last ? '' : ', '}}
+                        </span>
+                </td>
+                <td>
+                    <div *ngIf="event.owned">
+                        <a [routerLink]="['/member', event.owned?.id, 'view' ]" >{{event.owned?.id}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                                [routerLink]="['/event', event.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/event', event.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/event', { outlets: { popup: event.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

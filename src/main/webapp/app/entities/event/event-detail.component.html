@@ -1,0 +1,59 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="event">
+            <h2><span jhiTranslate="secretSantaApp.event.detail.title">Event</span> {{event.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="secretSantaApp.event.name">Name</span></dt>
+                <dd>
+                    <span>{{event.name}}</span>
+                </dd>
+                <dt><span jhiTranslate="secretSantaApp.event.maxLimit">Max Limit</span></dt>
+                <dd>
+                    <span>{{event.maxLimit}}</span>
+                </dd>
+                <dt><span jhiTranslate="secretSantaApp.event.minLimit">Min Limit</span></dt>
+                <dd>
+                    <span>{{event.minLimit}}</span>
+                </dd>
+                <dt><span jhiTranslate="secretSantaApp.event.dateCreated">Date Created</span></dt>
+                <dd>
+                    <span>{{event.dateCreated}}</span>
+                </dd>
+                <dt><span jhiTranslate="secretSantaApp.event.dateExpired">Date Expired</span></dt>
+                <dd>
+                    <span>{{event.dateExpired}}</span>
+                </dd>
+                <dt><span jhiTranslate="secretSantaApp.event.owner">Owner</span></dt>
+                <dd>
+                    <span>{{event.owner}}</span>
+                </dd>
+                <dt><span jhiTranslate="secretSantaApp.event.member">Member</span></dt>
+                <dd>
+                    <span *ngFor="let member of event.members; let last = last">
+                        <a [routerLink]="['/member', member?.id, 'view' ]">{{member.id}}</a>{{last ? '' : ', '}}
+                    </span>
+                </dd>
+                <dt><span jhiTranslate="secretSantaApp.event.owned">Owned</span></dt>
+                <dd>
+                    <div *ngIf="event.owned">
+                        <a [routerLink]="['/member', event.owned?.id, 'view']">{{event.owned?.id}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/event', event.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

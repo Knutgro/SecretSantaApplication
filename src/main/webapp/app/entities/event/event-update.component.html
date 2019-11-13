@@ -1,0 +1,69 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-event-heading" jhiTranslate="secretSantaApp.event.home.createOrEditLabel">Create or edit a Event</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!editForm.get('id').value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="secretSantaApp.event.name" for="field_name">Name</label>
+                    <input type="text" class="form-control" name="name" id="field_name"
+                           formControlName="name"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="secretSantaApp.event.maxLimit" for="field_maxLimit">Max Limit</label>
+                    <input type="number" class="form-control" name="maxLimit" id="field_maxLimit"
+                           formControlName="maxLimit"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="secretSantaApp.event.minLimit" for="field_minLimit">Min Limit</label>
+                    <input type="number" class="form-control" name="minLimit" id="field_minLimit"
+                           formControlName="minLimit"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="secretSantaApp.event.dateCreated" for="field_dateCreated">Date Created</label>
+                    <div class="d-flex">
+                        <input id="field_dateCreated" type="datetime-local" class="form-control" name="dateCreated" formControlName="dateCreated" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="secretSantaApp.event.dateExpired" for="field_dateExpired">Date Expired</label>
+                    <div class="d-flex">
+                        <input id="field_dateExpired" type="datetime-local" class="form-control" name="dateExpired" formControlName="dateExpired" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="secretSantaApp.event.owner" for="field_owner">Owner</label>
+                    <input type="number" class="form-control" name="owner" id="field_owner"
+                           formControlName="owner"/>
+                </div>
+
+                <div class="form-group">
+                    <label jhiTranslate="secretSantaApp.event.member" for="field_members">Member</label>
+                    <select class="form-control" id="field_members" multiple name="members" formControlName="members">
+                        <option [ngValue]="getSelected(editForm.get('members').value, memberOption)" *ngFor="let memberOption of members; trackBy: trackMemberById">{{memberOption.id}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="secretSantaApp.event.owned" for="field_owned">Owned</label>
+                    <select class="form-control" id="field_owned" name="owned" formControlName="owned">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="memberOption.id === editForm.get('owned').value?.id ? editForm.get('owned').value : memberOption" *ngFor="let memberOption of members; trackBy: trackMemberById">{{memberOption.id}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

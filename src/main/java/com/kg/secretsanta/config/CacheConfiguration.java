@@ -42,6 +42,18 @@ public class CacheConfiguration {
             createCache(cm, com.kg.secretsanta.domain.User.class.getName());
             createCache(cm, com.kg.secretsanta.domain.Authority.class.getName());
             createCache(cm, com.kg.secretsanta.domain.User.class.getName() + ".authorities");
+            createCache(cm, com.kg.secretsanta.domain.Wish.class.getName());
+            createCache(cm, com.kg.secretsanta.domain.Member.class.getName());
+            createCache(cm, com.kg.secretsanta.domain.Member.class.getName() + ".wishes");
+            createCache(cm, com.kg.secretsanta.domain.Member.class.getName() + ".owners");
+            createCache(cm, com.kg.secretsanta.domain.Member.class.getName() + ".gifters");
+            createCache(cm, com.kg.secretsanta.domain.Member.class.getName() + ".receivers");
+            createCache(cm, com.kg.secretsanta.domain.Member.class.getName() + ".events");
+            createCache(cm, com.kg.secretsanta.domain.Event.class.getName());
+            createCache(cm, com.kg.secretsanta.domain.Event.class.getName() + ".gifts");
+            createCache(cm, com.kg.secretsanta.domain.Event.class.getName() + ".wishes");
+            createCache(cm, com.kg.secretsanta.domain.Event.class.getName() + ".members");
+            createCache(cm, com.kg.secretsanta.domain.Gift.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

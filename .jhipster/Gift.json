@@ -1,0 +1,37 @@
+{
+    "name": "Gift",
+    "fields": [],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "member",
+            "otherEntityRelationshipName": "gifter",
+            "relationshipName": "giftedGift",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "member",
+            "otherEntityRelationshipName": "receiver",
+            "relationshipName": "receivedGift",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "event",
+            "otherEntityRelationshipName": "gift",
+            "relationshipName": "event",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20191113185645",
+    "entityTableName": "gift",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": "*"
+}
