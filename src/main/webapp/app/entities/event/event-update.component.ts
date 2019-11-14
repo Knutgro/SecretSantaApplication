@@ -12,6 +12,8 @@ import { IEvent, Event } from 'app/shared/model/event.model';
 import { EventService } from './event.service';
 import { IMember } from 'app/shared/model/member.model';
 import { MemberService } from 'app/entities/member/member.service';
+import { Account } from 'app/core/user/account.model';
+import { AccountService } from 'app/core/auth/account.service';
 
 @Component({
   selector: 'jhi-event-update',
@@ -19,7 +21,7 @@ import { MemberService } from 'app/entities/member/member.service';
 })
 export class EventUpdateComponent implements OnInit {
   isSaving: boolean;
-
+  account: Account;
   members: IMember[];
 
   editForm = this.fb.group({
@@ -29,12 +31,12 @@ export class EventUpdateComponent implements OnInit {
     minLimit: [],
     dateCreated: [],
     dateExpired: [],
-    owner: [],
     members: [],
     owned: []
   });
 
   constructor(
+    private accountService: AccountService,
     protected jhiAlertService: JhiAlertService,
     protected eventService: EventService,
     protected memberService: MemberService,
@@ -44,6 +46,10 @@ export class EventUpdateComponent implements OnInit {
 
   ngOnInit() {
     this.isSaving = false;
+    this.accountService.identity().subscribe((account: Account) => {
+      this.account = account;
+    });
+
     this.activatedRoute.data.subscribe(({ event }) => {
       this.updateForm(event);
     });
@@ -60,9 +66,8 @@ export class EventUpdateComponent implements OnInit {
       minLimit: event.minLimit,
       dateCreated: event.dateCreated != null ? event.dateCreated.format(DATE_TIME_FORMAT) : null,
       dateExpired: event.dateExpired != null ? event.dateExpired.format(DATE_TIME_FORMAT) : null,
-      owner: event.owner,
       members: event.members,
-      owned: event.owned
+      owned: this.account
     });
   }
 
@@ -87,11 +92,9 @@ export class EventUpdateComponent implements OnInit {
       name: this.editForm.get(['name']).value,
       maxLimit: this.editForm.get(['maxLimit']).value,
       minLimit: this.editForm.get(['minLimit']).value,
-      dateCreated:
-        this.editForm.get(['dateCreated']).value != null ? moment(this.editForm.get(['dateCreated']).value, DATE_TIME_FORMAT) : undefined,
+      dateCreated: moment(),
       dateExpired:
         this.editForm.get(['dateExpired']).value != null ? moment(this.editForm.get(['dateExpired']).value, DATE_TIME_FORMAT) : undefined,
-      owner: this.editForm.get(['owner']).value,
       members: this.editForm.get(['members']).value,
       owned: this.editForm.get(['owned']).value
     };

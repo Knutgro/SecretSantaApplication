@@ -27,11 +27,11 @@ public class Wish implements Serializable {
     @Column(name = "url")
     private String url;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JsonIgnoreProperties("wishes")
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JsonIgnoreProperties("wishes")
     private Event event;
 

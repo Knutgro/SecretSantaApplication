@@ -57,7 +57,7 @@ public class Event implements Serializable {
                inverseJoinColumns = @JoinColumn(name = "member_id", referencedColumnName = "id"))
     private Set<Member> members = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JsonIgnoreProperties("owners")
     private Member owned;
 

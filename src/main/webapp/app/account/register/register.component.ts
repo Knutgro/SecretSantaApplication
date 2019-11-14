@@ -23,7 +23,10 @@ export class RegisterComponent implements OnInit, AfterViewInit {
   registerForm = this.fb.group({
     login: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50), Validators.pattern('^[_.@A-Za-z0-9-]*$')]],
     email: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(254), Validators.email]],
+    firstName: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
+    lastName: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
     password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
+
     confirmPassword: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]]
   });
 
@@ -48,11 +51,13 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     let registerAccount = {};
     const login = this.registerForm.get(['login']).value;
     const email = this.registerForm.get(['email']).value;
+    const firstName = this.registerForm.get(['firstName']).value;
+    const lastName = this.registerForm.get(['lastName']).value;
     const password = this.registerForm.get(['password']).value;
     if (password !== this.registerForm.get(['confirmPassword']).value) {
       this.doNotMatch = 'ERROR';
     } else {
-      registerAccount = { ...registerAccount, login, email, password };
+      registerAccount = { ...registerAccount, login, email, firstName, lastName, password };
       this.doNotMatch = null;
       this.error = null;
       this.errorUserExists = null;
