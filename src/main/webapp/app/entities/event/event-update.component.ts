@@ -96,7 +96,7 @@ export class EventUpdateComponent implements OnInit {
       dateExpired:
         this.editForm.get(['dateExpired']).value != null ? moment(this.editForm.get(['dateExpired']).value, DATE_TIME_FORMAT) : undefined,
       members: this.editForm.get(['members']).value,
-      owned: this.editForm.get(['owned']).value
+      owned: this.account
     };
   }
 
@@ -117,7 +117,7 @@ export class EventUpdateComponent implements OnInit {
   }
 
   trackMemberById(index: number, item: IMember) {
-    return item.id;
+    return item.user.email;
   }
 
   getSelected(selectedVals: any[], option: any) {

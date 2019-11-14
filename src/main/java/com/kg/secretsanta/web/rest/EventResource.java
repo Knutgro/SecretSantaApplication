@@ -5,6 +5,7 @@ import com.kg.secretsanta.domain.Member;
 import com.kg.secretsanta.domain.User;
 import com.kg.secretsanta.repository.EventRepository;
 import com.kg.secretsanta.repository.MemberRepository;
+import com.kg.secretsanta.service.EventService;
 import com.kg.secretsanta.service.UserService;
 import com.kg.secretsanta.web.rest.errors.BadRequestAlertException;
 
@@ -43,11 +44,14 @@ public class EventResource {
     private final EventRepository eventRepository;
     private final MemberRepository memberRepository;
     private final UserService userService;
+    private final EventService eventService;
 
-    public EventResource(EventRepository eventRepository, MemberRepository memberRepository, UserService userService) {
+    public EventResource(EventRepository eventRepository, MemberRepository memberRepository, UserService userService,
+                         EventService eventService) {
         this.eventRepository = eventRepository;
         this.memberRepository = memberRepository;
         this.userService = userService;
+        this.eventService = eventService;
     }
 
     /**
@@ -63,8 +67,7 @@ public class EventResource {
         if (event.getId() != null) {
             throw new BadRequestAlertException("A new event cannot already have an ID", ENTITY_NAME, "idexists");
         }
-
-        Event result = eventRepository.save(event);
+        Event result = eventService.newEvent(event);
         return ResponseEntity.created(new URI("/api/events/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);

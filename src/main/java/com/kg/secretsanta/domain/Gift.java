@@ -33,6 +33,14 @@ public class Gift implements Serializable {
     @JsonIgnoreProperties("gifts")
     private Event event;
 
+    public Gift(Member giftedGift, Member receivedGift, Event event) {
+        this.giftedGift = giftedGift;
+        this.receivedGift = receivedGift;
+        this.event = event;
+    }
+
+    public Gift()  {}
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;

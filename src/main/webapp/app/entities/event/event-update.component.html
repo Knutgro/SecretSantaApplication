@@ -36,17 +36,11 @@
                 </div>
 
 
+
                 <div class="form-group">
                     <label jhiTranslate="secretSantaApp.event.member" for="field_members">Member</label>
                     <select class="form-control" id="field_members" multiple name="members" formControlName="members">
-                        <option [ngValue]="getSelected(editForm.get('members').value, memberOption)" *ngFor="let memberOption of members; trackBy: trackMemberById">{{memberOption.id}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="secretSantaApp.event.owned" for="field_owned">Owned</label>
-                    <select class="form-control" id="field_owned" name="owned" formControlName="owned">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="memberOption.id === editForm.get('owned').value?.id ? editForm.get('owned').value : memberOption" *ngFor="let memberOption of members; trackBy: trackMemberById">{{memberOption.id}}</option>
+                        <option [ngValue]="getSelected(editForm.get('members').value, memberOption)" *ngFor="let memberOption of members; trackBy: trackMemberById">{{memberOption.user.email}}</option>
                     </select>
                 </div>
             </div>
