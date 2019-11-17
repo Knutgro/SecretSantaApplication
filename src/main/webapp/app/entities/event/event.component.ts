@@ -5,6 +5,9 @@ import { JhiEventManager } from 'ng-jhipster';
 
 import { IEvent } from 'app/shared/model/event.model';
 import { EventService } from './event.service';
+import { Member } from 'app/shared/model/member.model';
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/user/account.model';
 
 @Component({
   selector: 'jhi-event',
@@ -13,8 +16,10 @@ import { EventService } from './event.service';
 export class EventComponent implements OnInit, OnDestroy {
   events: IEvent[];
   eventSubscriber: Subscription;
+  account: Account;
+  member: Member;
 
-  constructor(protected eventService: EventService, protected eventManager: JhiEventManager) {}
+  constructor(protected eventService: EventService, protected eventManager: JhiEventManager, private accountService: AccountService) {}
 
   loadAll() {
     this.eventService.query().subscribe((res: HttpResponse<IEvent[]>) => {
@@ -23,8 +28,12 @@ export class EventComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.accountService.identity().subscribe((account: Account) => {
+      this.account = account;
+    });
     this.loadAll();
     this.registerChangeInEvents();
+    console.log(this.account);
   }
 
   ngOnDestroy() {

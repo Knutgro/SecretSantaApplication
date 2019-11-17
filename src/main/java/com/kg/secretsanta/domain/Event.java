@@ -42,7 +42,7 @@ public class Event implements Serializable {
     @Column(name = "owner")
     private Integer owner;
 
-    @OneToMany(mappedBy = "event")
+    @OneToMany(mappedBy = "event", fetch = FetchType.EAGER)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Gift> gifts = new HashSet<>();
 

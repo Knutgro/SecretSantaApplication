@@ -2,7 +2,9 @@ package com.kg.secretsanta.web.rest;
 
 import com.kg.secretsanta.SecretSantaApp;
 import com.kg.secretsanta.domain.Wish;
+import com.kg.secretsanta.repository.MemberRepository;
 import com.kg.secretsanta.repository.WishRepository;
+import com.kg.secretsanta.service.UserService;
 import com.kg.secretsanta.web.rest.errors.ExceptionTranslator;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -64,7 +66,9 @@ public class WishResourceIT {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final WishResource wishResource = new WishResource(wishRepository);
+        MemberRepository memberRepository = null;
+        UserService userService = null;
+        final WishResource wishResource = new WishResource(wishRepository, userService, memberRepository);
         this.restWishMockMvc = MockMvcBuilders.standaloneSetup(wishResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -156,7 +160,7 @@ public class WishResourceIT {
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].url").value(hasItem(DEFAULT_URL)));
     }
-    
+
     @Test
     @Transactional
     public void getWish() throws Exception {

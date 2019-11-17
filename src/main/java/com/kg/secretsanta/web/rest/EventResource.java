@@ -67,6 +67,9 @@ public class EventResource {
         if (event.getId() != null) {
             throw new BadRequestAlertException("A new event cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        final Optional<User> isUser = userService.getUserWithAuthorities();
+        Member member = memberRepository.findMemberByUser(isUser);
+        event.setOwned(member);
         Event result = eventService.newEvent(event);
         return ResponseEntity.created(new URI("/api/events/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -88,7 +91,12 @@ public class EventResource {
         if (event.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
+        if (eventService.isNotEventLeader(event)) {
+            throw new BadRequestAlertException("invalid request", ENTITY_NAME, "not owner");
+        }
+
         Event result = eventRepository.save(event);
+
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, event.getId().toString()))
             .body(result);
@@ -118,7 +126,10 @@ public class EventResource {
     @GetMapping("/events/{id}")
     public ResponseEntity<Event> getEvent(@PathVariable Long id) {
         log.debug("REST request to get Event : {}", id);
-        Optional<Event> event = eventRepository.findOneWithEagerRelationships(id);
+        final Optional<User> isUser = userService.getUserWithAuthorities();
+        Set<Member> members = new HashSet<>();
+        members.add(memberRepository.findMemberByUser(isUser));
+        Optional<Event> event = eventRepository.findFirstByIdAndMembers(id, members);
         return ResponseUtil.wrapOrNotFound(event);
     }
 
@@ -131,6 +142,10 @@ public class EventResource {
     @DeleteMapping("/events/{id}")
     public ResponseEntity<Void> deleteEvent(@PathVariable Long id) {
         log.debug("REST request to delete Event : {}", id);
+        final Optional<User> isUser = userService.getUserWithAuthorities();
+        if (!isUser.isPresent()) {
+            throw new BadRequestAlertException("User could not be found", "USER", "no user");
+        }
         eventRepository.deleteById(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }

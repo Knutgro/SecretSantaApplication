@@ -1,7 +1,11 @@
 package com.kg.secretsanta.web.rest;
 
+import com.kg.secretsanta.domain.Member;
+import com.kg.secretsanta.domain.User;
 import com.kg.secretsanta.domain.Wish;
+import com.kg.secretsanta.repository.MemberRepository;
 import com.kg.secretsanta.repository.WishRepository;
+import com.kg.secretsanta.service.UserService;
 import com.kg.secretsanta.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -10,7 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional; 
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -35,9 +39,13 @@ public class WishResource {
     private String applicationName;
 
     private final WishRepository wishRepository;
+    private final UserService userService;
+    private final MemberRepository memberRepository;
 
-    public WishResource(WishRepository wishRepository) {
+    public WishResource(WishRepository wishRepository, UserService userService, MemberRepository memberRepository) {
         this.wishRepository = wishRepository;
+        this.userService = userService;
+        this.memberRepository = memberRepository;
     }
 
     /**
@@ -81,7 +89,7 @@ public class WishResource {
     }
 
     /**
-     * {@code GET  /wishes} : get all the wishes.
+     * {@code GET  /wishes} : get all wishes from logged in user
      *
 
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of wishes in body.
@@ -89,7 +97,9 @@ public class WishResource {
     @GetMapping("/wishes")
     public List<Wish> getAllWishes() {
         log.debug("REST request to get all Wishes");
-        return wishRepository.findAll();
+        final Optional<User> isUser = userService.getUserWithAuthorities();
+        Member member = memberRepository.findMemberByUser(isUser);
+        return wishRepository.findAllByMember(member);
     }
 
     /**

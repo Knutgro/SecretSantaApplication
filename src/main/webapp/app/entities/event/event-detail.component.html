@@ -1,14 +1,10 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="event">
-            <h2><span jhiTranslate="secretSantaApp.event.detail.title">Event</span> {{event.id}}</h2>
+            <h2><span></span> {{event.name}}</h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span jhiTranslate="secretSantaApp.event.name">Name</span></dt>
-                <dd>
-                    <span>{{event.name}}</span>
-                </dd>
                 <dt><span jhiTranslate="secretSantaApp.event.maxLimit">Max Limit</span></dt>
                 <dd>
                     <span>{{event.maxLimit}}</span>
@@ -26,20 +22,22 @@
                     <span>{{event.dateExpired}}</span>
                 </dd>
                 <dt><span jhiTranslate="secretSantaApp.event.owner">Owner</span></dt>
-                <dd>
-                    <span>{{event.owner}}</span>
-                </dd>
+
                 <dt><span jhiTranslate="secretSantaApp.event.member">Member</span></dt>
                 <dd>
                     <span *ngFor="let member of event.members; let last = last">
-                        <a [routerLink]="['/member', member?.id, 'view' ]">{{member.id}}</a>{{last ? '' : ', '}}
+                        <a [routerLink]="['/member', member?.id, 'view' ]">{{member.firstName}}{{member.lastName}}</a>{{last ? '' : ', '}}
                     </span>
                 </dd>
-                <dt><span jhiTranslate="secretSantaApp.event.owned">Owned</span></dt>
+                <dt><span>Owner</span></dt>
                 <dd>
                     <div *ngIf="event.owned">
-                        <a [routerLink]="['/member', event.owned?.id, 'view']">{{event.owned?.id}}</a>
+                        <a [routerLink]="['/member', event.owned?.user.email, 'view']">{{event.owned?.user.email}}</a>
                     </div>
+                </dd>
+                <dt><span>Your receiver</span></dt>
+                <dd>
+                    <span>{{event.id}}</span>
                 </dd>
             </dl>
 

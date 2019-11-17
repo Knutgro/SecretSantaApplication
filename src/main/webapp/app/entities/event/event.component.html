@@ -17,17 +17,17 @@
     <div class="table-responsive" *ngIf="events?.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
-            <tr>
-            <th scope="col" ><span >ID</span></th>
-            <th scope="col" ><span >Name</span></th>
-            <th scope="col" ><span >Max Limit</span></th>
-            <th scope="col" ><span >Min Limit</span></th>
-            <th scope="col" ><span >Date Created</span></th>
-            <th scope="col" ><span >Date Expired</span></th>
-            <th scope="col" ><span >Members</span></th>
-            <th scope="col" ><span >Owner</span></th>
-            <th scope="col"></th>
-            </tr>
+                <tr>
+                    <th scope="col" ><span >ID</span></th>
+                    <th scope="col" ><span >Name</span></th>
+                    <th scope="col" ><span >Max Limit</span></th>
+                    <th scope="col" ><span >Min Limit</span></th>
+                    <th scope="col" ><span >Date Created</span></th>
+                    <th scope="col" ><span >Date Expired</span></th>
+
+                    <th scope="col" ><span >Owner</span></th>
+                    <th scope="col" ><span >Members</span></th>
+                </tr>
             </thead>
             <tbody>
             <tr *ngFor="let event of events ;trackBy: trackId">
@@ -37,16 +37,11 @@
                 <td>{{event.minLimit}}</td>
                 <td>{{event.dateCreated | date:'medium'}}</td>
                 <td>{{event.dateExpired | date:'medium'}}</td>
-                <td>{{event.owner}}</td>
+                <td>{{event.owned.firstName}} {{event.owned.lastName}}</td>
                 <td>
                     <span *ngFor="let member of event.members; let last = last">
                             <a class="form-control-static" [routerLink]="['/member', member?.id, 'view' ]">{{member.firstName}} {{member.lastName}}</a>{{last ? '' : ', '}}
                         </span>
-                </td>
-                <td>
-                    <div *ngIf="event.owned">
-                        <a [routerLink]="['/member', event.owned?.id, 'view' ]" >{{event.owned?.id}}</a>
-                    </div>
                 </td>
                 <td class="text-right">
                     <div class="btn-group">
@@ -56,20 +51,24 @@
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                         </button>
-                        <button type="submit"
-                                [routerLink]="['/event', event.id, 'edit']"
-                                class="btn btn-primary btn-sm">
-                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/event', { outlets: { popup: event.id + '/delete'} }]"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
-                                class="btn btn-danger btn-sm">
-                            <fa-icon [icon]="'times'"></fa-icon>
-                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
-                        </button>
+                        <div *ngIf="event.owned.user.login == account.login">
+                            <button type="submit"
+                                    [routerLink]="['/event', event.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+                        </div>
+                        <div *ngIf="event.owned.user.login == account.login">
+                            <button type="submit"
+                                    [routerLink]="['/event', { outlets: { popup: event.id + '/delete'} }]"
+                                    replaceUrl="true"
+                                    queryParamsHandling="merge"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon [icon]="'times'"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        <div>
                     </div>
                 </td>
             </tr>

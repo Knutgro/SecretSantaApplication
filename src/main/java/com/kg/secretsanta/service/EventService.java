@@ -4,16 +4,14 @@ package com.kg.secretsanta.service;
 import com.kg.secretsanta.domain.Event;
 import com.kg.secretsanta.domain.Gift;
 import com.kg.secretsanta.domain.Member;
+import com.kg.secretsanta.domain.User;
 import com.kg.secretsanta.repository.EventRepository;
 import com.kg.secretsanta.repository.GiftRepository;
 import com.kg.secretsanta.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @Transactional
@@ -22,13 +20,20 @@ public class EventService {
     private final EventRepository eventRepository;
     private final GiftRepository giftRepository;
     private final MemberRepository memberRepository;
+    private final UserService userService;
 
-    public EventService(EventRepository eventRepository, GiftRepository giftRepository, MemberRepository memberRepository) {
+    public EventService(EventRepository eventRepository, GiftRepository giftRepository, MemberRepository memberRepository, UserService userService) {
         this.eventRepository = eventRepository;
         this.giftRepository = giftRepository;
         this.memberRepository = memberRepository;
+        this.userService = userService;
     }
 
+    public Boolean isNotEventLeader(Event event) {
+        final Optional<User> isUser = userService.getUserWithAuthorities();
+        Member member = memberRepository.findMemberByUser(isUser);
+        return eventRepository.findEventByOwnedAndId(member, event.getId()) == null;
+    }
     public Event newEvent(Event event) {
         Set<Member> members = event.getMembers();
         List<Member> memberArray = new ArrayList<>(members);
@@ -41,9 +46,6 @@ public class EventService {
             }
         }
         giftRepository.saveAll(event.getGifts());
-
-
-
         return newEvent;
 
     }

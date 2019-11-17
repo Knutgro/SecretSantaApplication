@@ -27,6 +27,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.accountService.identity().subscribe((account: Account) => {
       this.account = account;
     });
+    console.log(this.account);
     this.registerAuthenticationSuccess();
   }
 

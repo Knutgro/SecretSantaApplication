@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.terracotta.offheapstore.storage.StorageEngine;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +25,11 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     @Query("select distinct event from Event event left join fetch event.members")
     List<Event> findAllWithEagerRelationships();
 
+    Event findEventByOwnedAndId(Member owned, Long id);
+
     List<Event> findAllByMembers(Set<Member> members);
+
+    Optional<Event> findFirstByIdAndMembers(Long id, Set<Member> members);
 
     @Query("select event from Event event left join fetch event.members where event.id =:id")
     Optional<Event> findOneWithEagerRelationships(@Param("id") Long id);
