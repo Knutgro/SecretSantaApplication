@@ -98,7 +98,10 @@ public class WishResource {
     public List<Wish> getAllWishes() {
         log.debug("REST request to get all Wishes");
         final Optional<User> isUser = userService.getUserWithAuthorities();
-        Member member = memberRepository.findMemberByUser(isUser);
+        if(!isUser.isPresent()) {
+            throw new BadRequestAlertException("no user present", "USER", "no user");
+        }
+        Member member = memberRepository.findMemberByUser(isUser.get());
         return wishRepository.findAllByMember(member);
     }
 

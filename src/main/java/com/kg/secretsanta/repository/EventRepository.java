@@ -27,6 +27,9 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
     Event findEventByOwnedAndId(Member owned, Long id);
 
+
+    Event findByOwned(Member member);
+
     List<Event> findAllByMembers(Set<Member> members);
 
     Optional<Event> findFirstByIdAndMembers(Long id, Set<Member> members);

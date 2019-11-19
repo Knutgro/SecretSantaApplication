@@ -37,10 +37,20 @@
                 </dd>
                 <dt><span>Your receiver</span></dt>
                 <dd>
-                    <span>{{event.id}}</span>
+                    <span>{{gift.receivedGift.firstName}} {{gift.receivedGift.lastName}}</span>
                 </dd>
             </dl>
+<!--
+            <button type="submit"
+                    [routerLink]="['/wish',event.id,'wishes']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'plus'"></fa-icon>
+                <span>
+            Create a new Wish
+            </span>
 
+            </button>
+            -->
             <button type="submit"
                     (click)="previousState()"
                     class="btn btn-info">

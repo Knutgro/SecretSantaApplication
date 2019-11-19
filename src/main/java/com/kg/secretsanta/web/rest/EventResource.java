@@ -68,7 +68,13 @@ public class EventResource {
             throw new BadRequestAlertException("A new event cannot already have an ID", ENTITY_NAME, "idexists");
         }
         final Optional<User> isUser = userService.getUserWithAuthorities();
-        Member member = memberRepository.findMemberByUser(isUser);
+        if(!isUser.isPresent()) {
+            throw new BadRequestAlertException("no user present", "USER", "no user");
+        }
+        Member member = memberRepository.findMemberByUser(isUser.get());
+        if (member == null) {
+            throw new BadRequestAlertException("no member present", "MEMBER", "no member");
+        }
         event.setOwned(member);
         Event result = eventService.newEvent(event);
         return ResponseEntity.created(new URI("/api/events/" + result.getId()))
@@ -113,7 +119,10 @@ public class EventResource {
         log.debug("REST request to get all Events");
         final Optional<User> isUser = userService.getUserWithAuthorities();
         Set<Member> members = new HashSet<>();
-        members.add(memberRepository.findMemberByUser(isUser));
+        if(!isUser.isPresent()) {
+            throw new BadRequestAlertException("no user present", "USER", "no user");
+        }
+        members.add(memberRepository.findMemberByUser(isUser.get()));
         return eventRepository.findAllByMembers(members);
     }
 
@@ -128,7 +137,10 @@ public class EventResource {
         log.debug("REST request to get Event : {}", id);
         final Optional<User> isUser = userService.getUserWithAuthorities();
         Set<Member> members = new HashSet<>();
-        members.add(memberRepository.findMemberByUser(isUser));
+        if(!isUser.isPresent()) {
+            throw new BadRequestAlertException("no user present", "USER", "no user");
+        }
+        members.add(memberRepository.findMemberByUser(isUser.get()));
         Optional<Event> event = eventRepository.findFirstByIdAndMembers(id, members);
         return ResponseUtil.wrapOrNotFound(event);
     }
@@ -145,6 +157,16 @@ public class EventResource {
         final Optional<User> isUser = userService.getUserWithAuthorities();
         if (!isUser.isPresent()) {
             throw new BadRequestAlertException("User could not be found", "USER", "no user");
+        }
+
+        Member member = memberRepository.findMemberByUser(isUser.get());
+        Optional<Event> event = eventRepository.findById(id);
+        if (!event.isPresent() ) {
+            throw new BadRequestAlertException("event could not be found,", "EVENT", "no event");
+        }
+        if (!event.get().equals(eventRepository.findByOwned(member))) {
+            throw new BadRequestAlertException("not the owner", "MEMBER", "wrong owner");
+
         }
         eventRepository.deleteById(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();

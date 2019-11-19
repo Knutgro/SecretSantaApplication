@@ -27,7 +27,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.accountService.identity().subscribe((account: Account) => {
       this.account = account;
     });
-    console.log(this.account);
     this.registerAuthenticationSuccess();
   }
 
@@ -35,6 +34,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.authSubscription = this.eventManager.subscribe('authenticationSuccess', () => {
       this.accountService.identity().subscribe(account => {
         this.account = account;
+        if (this.account.authorities.length === 0) {
+          this.account = undefined;
+        }
       });
     });
   }

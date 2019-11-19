@@ -79,6 +79,12 @@ export class AccountService {
     return this.authenticated;
   }
 
+  isAnonymous(): void {
+    if (this.userIdentity.login === 'Anonymous') {
+      this.authenticated = false;
+    }
+  }
+
   isIdentityResolved(): boolean {
     return this.userIdentity !== undefined;
   }

@@ -8,6 +8,7 @@ import com.kg.secretsanta.domain.User;
 import com.kg.secretsanta.repository.EventRepository;
 import com.kg.secretsanta.repository.GiftRepository;
 import com.kg.secretsanta.repository.MemberRepository;
+import com.kg.secretsanta.web.rest.errors.BadRequestAlertException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +32,10 @@ public class EventService {
 
     public Boolean isNotEventLeader(Event event) {
         final Optional<User> isUser = userService.getUserWithAuthorities();
-        Member member = memberRepository.findMemberByUser(isUser);
+        if(!isUser.isPresent()) {
+            throw new BadRequestAlertException("no user present", "USER", "no user");
+        }
+        Member member = memberRepository.findMemberByUser(isUser.get());
         return eventRepository.findEventByOwnedAndId(member, event.getId()) == null;
     }
     public Event newEvent(Event event) {
