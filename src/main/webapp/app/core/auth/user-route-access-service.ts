@@ -45,7 +45,6 @@ export class UserRouteAccessService implements CanActivate {
 
         this.stateStorageService.storeUrl(url);
         this.router.navigate(['']);
-        this.loginModalService.open();
         return false;
       })
     );
