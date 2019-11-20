@@ -1,4 +1,4 @@
-<div>
+
     <h2 id="page-heading">
         <span jhiTranslate="secretSantaApp.event.home.title">Events</span>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-event" [routerLink]="['/event/new']">
@@ -14,65 +14,27 @@
     <div class="alert alert-warning" *ngIf="events?.length === 0">
         <span jhiTranslate="secretSantaApp.event.home.notFound">No events found</span>
     </div>
-    <div class="table-responsive" *ngIf="events?.length > 0">
-        <table class="table table-striped" aria-describedby="page-heading">
-            <thead>
-                <tr>
-                    <th scope="col" ><span >ID</span></th>
-                    <th scope="col" ><span >Name</span></th>
-                    <th scope="col" ><span >Max Limit</span></th>
-                    <th scope="col" ><span >Min Limit</span></th>
-                    <th scope="col" ><span >Date Created</span></th>
-                    <th scope="col" ><span >Date Expired</span></th>
 
-                    <th scope="col" ><span >Owner</span></th>
-                    <th scope="col" ><span >Members</span></th>
-                </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let event of events ;trackBy: trackId">
-                <td><a [routerLink]="['/event', event.id, 'view' ]">{{event.id}}</a></td>
-                <td>{{event.name}}</td>
-                <td>{{event.maxLimit}}</td>
-                <td>{{event.minLimit}}</td>
-                <td>{{event.dateCreated | date:'medium'}}</td>
-                <td>{{event.dateExpired | date:'medium'}}</td>
-                <td>{{event.owned.firstName}} {{event.owned.lastName}}</td>
-                <td>
-                    <span *ngFor="let member of event.members; let last = last">
-                            <a class="form-control-static" [routerLink]="['/member', member?.id, 'view' ]">{{member.firstName}} {{member.lastName}}</a>{{last ? '' : ', '}}
-                        </span>
-                </td>
-                <td class="text-right">
-                    <div class="btn-group">
-                        <button type="submit"
-                                [routerLink]="['/event', event.id, 'view' ]"
-                                class="btn btn-info btn-sm">
-                            <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
-                        </button>
-                        <div *ngIf="event.owned.user.login == account.login">
-                            <button type="submit"
-                                    [routerLink]="['/event', event.id, 'edit']"
-                                    class="btn btn-primary btn-sm">
-                                <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
-                            </button>
-                        </div>
-                        <div *ngIf="event.owned.user.login == account.login">
-                            <button type="submit"
-                                    [routerLink]="['/event', { outlets: { popup: event.id + '/delete'} }]"
-                                    replaceUrl="true"
-                                    queryParamsHandling="merge"
-                                    class="btn btn-danger btn-sm">
-                                <fa-icon [icon]="'times'"></fa-icon>
-                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
-                            </button>
-                        <div>
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+
+
+    <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center">
+        <div fxLayout="column" fxLayoutGap="5px" fxFlex="1 1 100%">
+            <mat-card class="search" *ngFor="let event of events ;trackBy: trackId" style="margin: 2cm; width: 400px; position: center" [routerLink]="['/event', event.id, 'view' ]">
+                <mat-card-title-group>
+                    <mat-card-title><h1>{{event.name}}</h1></mat-card-title>
+                    <mat-card-subtitle>
+                        <p>{{event.description}}</p>
+                    </mat-card-subtitle>
+                </mat-card-title-group>
+                <mat-card-content style="float: left;">
+                    <h3>
+                        From {{event.dateCreated.format("DD-MM-YYYY")}}
+                    </h3>
+                    <h3>
+                        To {{event.dateExpired?.format("DD-MM-YYYY")}}
+                    </h3>
+                </mat-card-content>
+
+            </mat-card>
+        </div>
     </div>
-</div>

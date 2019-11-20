@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -39,8 +40,8 @@ public class Event implements Serializable {
     @Column(name = "date_expired")
     private Instant dateExpired;
 
-    @Column(name = "owner")
-    private Integer owner;
+    @Column(name = "description")
+    private String description;
 
     @OneToMany(mappedBy = "event", fetch = FetchType.EAGER)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -91,6 +92,10 @@ public class Event implements Serializable {
         this.maxLimit = maxLimit;
         return this;
     }
+    public Event description(String description) {
+        this.description = description;
+        return this;
+    }
 
     public void setMaxLimit(Integer maxLimit) {
         this.maxLimit = maxLimit;
@@ -135,18 +140,7 @@ public class Event implements Serializable {
         this.dateExpired = dateExpired;
     }
 
-    public Integer getOwner() {
-        return owner;
-    }
 
-    public Event owner(Integer owner) {
-        this.owner = owner;
-        return this;
-    }
-
-    public void setOwner(Integer owner) {
-        this.owner = owner;
-    }
 
     public Set<Gift> getGifts() {
         return gifts;
@@ -237,32 +231,53 @@ public class Event implements Serializable {
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Event)) {
-            return false;
-        }
-        return id != null && id.equals(((Event) o).id);
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Event event = (Event) o;
+        return Objects.equals(id, event.id) &&
+            Objects.equals(name, event.name) &&
+            Objects.equals(maxLimit, event.maxLimit) &&
+            Objects.equals(minLimit, event.minLimit) &&
+            Objects.equals(dateCreated, event.dateCreated) &&
+            Objects.equals(dateExpired, event.dateExpired) &&
+            Objects.equals(description, event.description) &&
+            Objects.equals(gifts, event.gifts) &&
+            Objects.equals(wishes, event.wishes) &&
+            Objects.equals(members, event.members) &&
+            Objects.equals(owned, event.owned);
     }
 
     @Override
     public int hashCode() {
-        return 31;
+        return Objects.hash(id, name, maxLimit, minLimit, dateCreated, dateExpired, description, gifts, wishes, members, owned);
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
     public String toString() {
         return "Event{" +
-            "id=" + getId() +
-            ", name='" + getName() + "'" +
-            ", maxLimit=" + getMaxLimit() +
-            ", minLimit=" + getMinLimit() +
-            ", dateCreated='" + getDateCreated() + "'" +
-            ", dateExpired='" + getDateExpired() + "'" +
-            ", owner=" + getOwner() +
-            "}";
+            "id=" + id +
+            ", name='" + name + '\'' +
+            ", maxLimit=" + maxLimit +
+            ", minLimit=" + minLimit +
+            ", dateCreated=" + dateCreated +
+            ", dateExpired=" + dateExpired +
+            ", description='" + description + '\'' +
+            ", gifts=" + gifts +
+            ", wishes=" + wishes +
+            ", members=" + members +
+            ", owned=" + owned +
+            '}';
     }
+
 }

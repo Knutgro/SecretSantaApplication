@@ -58,8 +58,8 @@ public class EventResourceIT {
     private static final Instant DEFAULT_DATE_EXPIRED = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_DATE_EXPIRED = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
-    private static final Integer DEFAULT_OWNER = 1;
-    private static final Integer UPDATED_OWNER = 2;
+    private static final String DEFAULT_DESCRIPTION = "1";
+    private static final String UPDATED_DESCRIPTION = "2";
 
     @Autowired
     private EventRepository eventRepository;
@@ -124,7 +124,7 @@ public class EventResourceIT {
             .minLimit(DEFAULT_MIN_LIMIT)
             .dateCreated(DEFAULT_DATE_CREATED)
             .dateExpired(DEFAULT_DATE_EXPIRED)
-            .owner(DEFAULT_OWNER);
+            .description(DEFAULT_DESCRIPTION);
         return event;
     }
     /**
@@ -140,7 +140,7 @@ public class EventResourceIT {
             .minLimit(UPDATED_MIN_LIMIT)
             .dateCreated(UPDATED_DATE_CREATED)
             .dateExpired(UPDATED_DATE_EXPIRED)
-            .owner(UPDATED_OWNER);
+            .description(UPDATED_DESCRIPTION);
         return event;
     }
 
@@ -169,7 +169,7 @@ public class EventResourceIT {
         assertThat(testEvent.getMinLimit()).isEqualTo(DEFAULT_MIN_LIMIT);
         assertThat(testEvent.getDateCreated()).isEqualTo(DEFAULT_DATE_CREATED);
         assertThat(testEvent.getDateExpired()).isEqualTo(DEFAULT_DATE_EXPIRED);
-        assertThat(testEvent.getOwner()).isEqualTo(DEFAULT_OWNER);
+        assertThat(testEvent.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
     }
 
     @Test
@@ -208,7 +208,7 @@ public class EventResourceIT {
             .andExpect(jsonPath("$.[*].minLimit").value(hasItem(DEFAULT_MIN_LIMIT)))
             .andExpect(jsonPath("$.[*].dateCreated").value(hasItem(DEFAULT_DATE_CREATED.toString())))
             .andExpect(jsonPath("$.[*].dateExpired").value(hasItem(DEFAULT_DATE_EXPIRED.toString())))
-            .andExpect(jsonPath("$.[*].owner").value(hasItem(DEFAULT_OWNER)));
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)));
     }
 
     @SuppressWarnings({"unchecked"})
@@ -260,7 +260,7 @@ public class EventResourceIT {
             .andExpect(jsonPath("$.minLimit").value(DEFAULT_MIN_LIMIT))
             .andExpect(jsonPath("$.dateCreated").value(DEFAULT_DATE_CREATED.toString()))
             .andExpect(jsonPath("$.dateExpired").value(DEFAULT_DATE_EXPIRED.toString()))
-            .andExpect(jsonPath("$.owner").value(DEFAULT_OWNER));
+            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION));
     }
 
     @Test
@@ -289,7 +289,7 @@ public class EventResourceIT {
             .minLimit(UPDATED_MIN_LIMIT)
             .dateCreated(UPDATED_DATE_CREATED)
             .dateExpired(UPDATED_DATE_EXPIRED)
-            .owner(UPDATED_OWNER);
+            .description(UPDATED_DESCRIPTION);
 
         restEventMockMvc.perform(put("/api/events")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -305,7 +305,7 @@ public class EventResourceIT {
         assertThat(testEvent.getMinLimit()).isEqualTo(UPDATED_MIN_LIMIT);
         assertThat(testEvent.getDateCreated()).isEqualTo(UPDATED_DATE_CREATED);
         assertThat(testEvent.getDateExpired()).isEqualTo(UPDATED_DATE_EXPIRED);
-        assertThat(testEvent.getOwner()).isEqualTo(UPDATED_OWNER);
+        assertThat(testEvent.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
     }
 
     @Test

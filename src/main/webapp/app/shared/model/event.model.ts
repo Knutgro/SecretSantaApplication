@@ -10,7 +10,7 @@ export interface IEvent {
   minLimit?: number;
   dateCreated?: Moment;
   dateExpired?: Moment;
-  owner?: number;
+  description?: string;
   gifts?: IGift[];
   wishes?: IWish[];
   members?: IMember[];
@@ -25,7 +25,7 @@ export class Event implements IEvent {
     public minLimit?: number,
     public dateCreated?: Moment,
     public dateExpired?: Moment,
-    public owner?: number,
+    public description?: string,
     public gifts?: IGift[],
     public wishes?: IWish[],
     public members?: IMember[],

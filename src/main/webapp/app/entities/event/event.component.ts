@@ -11,7 +11,8 @@ import { Account } from 'app/core/user/account.model';
 
 @Component({
   selector: 'jhi-event',
-  templateUrl: './event.component.html'
+  templateUrl: './event.component.html',
+  styleUrls: ['./event.component.scss']
 })
 export class EventComponent implements OnInit, OnDestroy {
   events: IEvent[];
