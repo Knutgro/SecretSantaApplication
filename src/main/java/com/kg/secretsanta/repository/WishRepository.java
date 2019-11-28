@@ -1,4 +1,5 @@
 package com.kg.secretsanta.repository;
+import com.kg.secretsanta.domain.Event;
 import com.kg.secretsanta.domain.Member;
 import com.kg.secretsanta.domain.Wish;
 import org.springframework.data.jpa.repository.*;
@@ -15,4 +16,7 @@ import java.util.List;
 public interface WishRepository extends JpaRepository<Wish, Long> {
     List<Wish> findAllByMember(Member member);
 
+    List<Wish> findAllByMemberAndEvent(Member member, Event event);
+
+    List<Wish> findAllByMember_IdAndEvent_Id(Long member_id, Long event_id);
 }

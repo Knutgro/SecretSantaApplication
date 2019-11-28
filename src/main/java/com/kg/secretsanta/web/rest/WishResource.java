@@ -1,8 +1,6 @@
 package com.kg.secretsanta.web.rest;
 
-import com.kg.secretsanta.domain.Member;
-import com.kg.secretsanta.domain.User;
-import com.kg.secretsanta.domain.Wish;
+import com.kg.secretsanta.domain.*;
 import com.kg.secretsanta.repository.MemberRepository;
 import com.kg.secretsanta.repository.WishRepository;
 import com.kg.secretsanta.service.UserService;
@@ -22,6 +20,7 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * REST controller for managing {@link com.kg.secretsanta.domain.Wish}.
@@ -61,6 +60,15 @@ public class WishResource {
         if (wish.getId() != null) {
             throw new BadRequestAlertException("A new wish cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        final Optional<User> isUser = userService.getUserWithAuthorities();
+        if(!isUser.isPresent()) {
+            throw new BadRequestAlertException("no user present", "USER", "no user");
+        }
+        Member member = memberRepository.findMemberByUser(isUser.get());
+        if (member == null) {
+            throw new BadRequestAlertException("no member present", "MEMBER", "no member");
+        }
+        wish.setMember(member);
         Wish result = wishRepository.save(wish);
         return ResponseEntity.created(new URI("/api/wishes/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -103,6 +111,34 @@ public class WishResource {
         }
         Member member = memberRepository.findMemberByUser(isUser.get());
         return wishRepository.findAllByMember(member);
+    }
+
+    /**
+     *  TODO ADD SECURITY
+     */
+    @PostMapping("/eventWishes")
+    public List<Wish> getEventWishes(@RequestBody Event event ) {
+        log.debug("REST request to get all event wishes");
+        final Optional<User> isUser = userService.getUserWithAuthorities();
+        if(!isUser.isPresent()) {
+            throw new BadRequestAlertException("no user present", "USER", "no user");
+
+        }
+        Member member = memberRepository.findMemberByUser(isUser.get());
+        return wishRepository.findAllByMemberAndEvent(member, event);
+    }
+
+    /**
+     * TODO: ADD SECURITY!!
+     */
+    @GetMapping("/recipientWish/{memberId}/{eventId}")
+    public List<Wish> getRecipientWish(@PathVariable Long memberId,@PathVariable Long eventId) {
+        log.debug("REST request to get all event wishes");
+        final Optional<User> isUser = userService.getUserWithAuthorities();
+        if(!isUser.isPresent()) {
+            throw new BadRequestAlertException("no user present", "USER", "no user");
+        }
+        return wishRepository.findAllByMember_IdAndEvent_Id(memberId, eventId);
     }
 
     /**

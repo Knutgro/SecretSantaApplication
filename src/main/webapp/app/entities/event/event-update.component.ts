@@ -23,6 +23,7 @@ export class EventUpdateComponent implements OnInit {
   isSaving: boolean;
   account: Account;
   members: IMember[];
+  panelOpenState = false;
 
   editForm = this.fb.group({
     id: [],
@@ -46,10 +47,6 @@ export class EventUpdateComponent implements OnInit {
 
   ngOnInit() {
     this.isSaving = false;
-    this.accountService.identity().subscribe((account: Account) => {
-      this.account = account;
-    });
-
     this.activatedRoute.data.subscribe(({ event }) => {
       this.updateForm(event);
     });
@@ -66,8 +63,7 @@ export class EventUpdateComponent implements OnInit {
       minLimit: event.minLimit,
       dateCreated: event.dateCreated != null ? event.dateCreated.format(DATE_TIME_FORMAT) : null,
       dateExpired: event.dateExpired != null ? event.dateExpired.format(DATE_TIME_FORMAT) : null,
-      members: event.members,
-      owned: this.account
+      members: event.members
     });
   }
 
@@ -95,8 +91,7 @@ export class EventUpdateComponent implements OnInit {
       dateCreated: moment(),
       dateExpired:
         this.editForm.get(['dateExpired']).value != null ? moment(this.editForm.get(['dateExpired']).value, DATE_TIME_FORMAT) : undefined,
-      members: this.editForm.get(['members']).value,
-      owned: this.account
+      members: this.editForm.get(['members']).value
     };
   }
 

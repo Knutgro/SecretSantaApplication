@@ -1,4 +1,5 @@
 package com.kg.secretsanta.domain;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -30,7 +31,8 @@ public class Gift implements Serializable {
     private Member receivedGift;
 
     @ManyToOne
-    @JsonIgnoreProperties("gifts")
+    //@JsonIgnoreProperties("gifts")
+    @JsonIgnore
     private Event event;
 
     public Gift(Member giftedGift, Member receivedGift, Event event) {

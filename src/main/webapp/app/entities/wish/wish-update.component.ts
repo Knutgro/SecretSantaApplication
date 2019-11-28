@@ -12,6 +12,8 @@ import { IMember } from 'app/shared/model/member.model';
 import { MemberService } from 'app/entities/member/member.service';
 import { IEvent } from 'app/shared/model/event.model';
 import { EventService } from 'app/entities/event/event.service';
+import { Account } from 'app/core/user/account.model';
+import { AccountService } from 'app/core/auth/account.service';
 
 @Component({
   selector: 'jhi-wish-update',
@@ -19,23 +21,18 @@ import { EventService } from 'app/entities/event/event.service';
 })
 export class WishUpdateComponent implements OnInit {
   isSaving: boolean;
-
-  members: IMember[];
-
   events: IEvent[];
 
   editForm = this.fb.group({
     id: [],
     name: [],
     url: [],
-    member: [],
     event: []
   });
 
   constructor(
     protected jhiAlertService: JhiAlertService,
     protected wishService: WishService,
-    protected memberService: MemberService,
     protected eventService: EventService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
@@ -46,9 +43,6 @@ export class WishUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ wish }) => {
       this.updateForm(wish);
     });
-    this.memberService
-      .query()
-      .subscribe((res: HttpResponse<IMember[]>) => (this.members = res.body), (res: HttpErrorResponse) => this.onError(res.message));
     this.eventService
       .query()
       .subscribe((res: HttpResponse<IEvent[]>) => (this.events = res.body), (res: HttpErrorResponse) => this.onError(res.message));
@@ -59,7 +53,6 @@ export class WishUpdateComponent implements OnInit {
       id: wish.id,
       name: wish.name,
       url: wish.url,
-      member: wish.member,
       event: wish.event
     });
   }
@@ -71,6 +64,7 @@ export class WishUpdateComponent implements OnInit {
   save() {
     this.isSaving = true;
     const wish = this.createFromForm();
+    console.log(wish);
     if (wish.id !== undefined) {
       this.subscribeToSaveResponse(this.wishService.update(wish));
     } else {
@@ -84,7 +78,6 @@ export class WishUpdateComponent implements OnInit {
       id: this.editForm.get(['id']).value,
       name: this.editForm.get(['name']).value,
       url: this.editForm.get(['url']).value,
-      member: this.editForm.get(['member']).value,
       event: this.editForm.get(['event']).value
     };
   }
