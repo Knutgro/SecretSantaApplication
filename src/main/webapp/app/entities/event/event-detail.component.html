@@ -21,7 +21,7 @@
                 <dd>
                     <span>{{event.dateExpired}}</span>
                 </dd>
-                <dt><span jhiTranslate="secretSantaApp.event.member">Member</span></dt>
+                <dt><span>Members</span></dt>
                 <dd>
                     <span *ngFor="let member of event.members; let last = last">
                         <a [routerLink]="['/member', member?.id, 'view' ]">{{member.firstName}}{{member.lastName}}</a>{{last ? '' : ', '}}
@@ -34,14 +34,18 @@
                     </div>
                 </dd>
                 <dt><span>You are secret santa for {{gift.receivedGift.firstName}} {{gift.receivedGift.lastName}}!</span></dt>
-                <dt><span>Wish list for {{gift.receivedGift.firstName}} {{gift.receivedGift.lastName}}:</span></dt>
-
-                <div class="list-group"*ngFor="let wish of recWishes; let last = last">
-                    <button type="button" class="list-group-item list-group-item-action">
-                        {{wish.name}}
-                    </button>
+                <div *ngIf="recWishes.length > 0">
+                    <dt><span>Wish list for {{gift.receivedGift.firstName}} {{gift.receivedGift.lastName}}:</span></dt>
+                    {{recWishes.length}}
+                    <div class="list-group"*ngFor="let wish of recWishes; let last = last">
+                        <button (click)="goToLink(wish.url)" type="button" class="list-group-item list-group-item-action">
+                            {{wish.name}}
+                        </button>
+                    </div>
                 </div>
-
+                <div *ngIf="recWishes.length===0">
+                    <dt><span> {{gift.receivedGift.firstName}} {{gift.receivedGift.lastName}} hasnt entered any wishes!</span></dt>
+                </div>
             </dl>
 <!--
             <button type="submit"
@@ -60,7 +64,7 @@
                 <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
             </button>
 
-            <button type="button"
+            <button *ngIf="isOwner" type="button"
                     [routerLink]="['/event', event.id, 'edit']"
                     class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>

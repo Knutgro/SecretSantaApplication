@@ -21,7 +21,6 @@
             <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
             <th scope="col" ><span jhiTranslate="secretSantaApp.wish.name">Name</span></th>
             <th scope="col" ><span jhiTranslate="secretSantaApp.wish.url">Url</span></th>
-            <th scope="col" ><span jhiTranslate="secretSantaApp.wish.member">Member</span></th>
             <th scope="col" ><span jhiTranslate="secretSantaApp.wish.event">Event</span></th>
             <th scope="col"></th>
             </tr>
@@ -32,13 +31,8 @@
                 <td>{{wish.name}}</td>
                 <td>{{wish.url}}</td>
                 <td>
-                    <div *ngIf="wish.member">
-                        <a [routerLink]="['/member', wish.member?.id, 'view' ]" >{{wish.member?.id}}</a>
-                    </div>
-                </td>
-                <td>
                     <div *ngIf="wish.event">
-                        <a [routerLink]="['/event', wish.event?.id, 'view' ]" >{{wish.event?.id}}</a>
+                        <a [routerLink]="['/event', wish.event?.id, 'view' ]" >{{wish.event?.name}}</a>
                     </div>
                 </td>
                 <td class="text-right">

@@ -3,6 +3,7 @@ package com.kg.secretsanta.web.rest;
 import com.kg.secretsanta.SecretSantaApp;
 import com.kg.secretsanta.domain.Member;
 import com.kg.secretsanta.repository.MemberRepository;
+import com.kg.secretsanta.service.UserService;
 import com.kg.secretsanta.web.rest.errors.ExceptionTranslator;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -61,10 +62,12 @@ public class MemberResourceIT {
 
     private Member member;
 
+    private UserService userService;
+
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final MemberResource memberResource = new MemberResource(memberRepository);
+        final MemberResource memberResource = new MemberResource(memberRepository, userService);
         this.restMemberMockMvc = MockMvcBuilders.standaloneSetup(memberResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -156,7 +159,7 @@ public class MemberResourceIT {
             .andExpect(jsonPath("$.[*].firstName").value(hasItem(DEFAULT_FIRST_NAME)))
             .andExpect(jsonPath("$.[*].lastName").value(hasItem(DEFAULT_LAST_NAME)));
     }
-    
+
     @Test
     @Transactional
     public void getMember() throws Exception {

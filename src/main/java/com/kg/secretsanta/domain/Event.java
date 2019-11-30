@@ -48,7 +48,7 @@ public class Event implements Serializable {
     private Set<Gift> gifts = new HashSet<>();
 
     @OneToMany(mappedBy = "event")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    //@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Wish> wishes = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER)

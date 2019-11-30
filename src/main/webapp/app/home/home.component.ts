@@ -44,6 +44,8 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
       this.account = account;
     });
     this.registerAuthenticationSuccess();
+    console.log(this.isAuthenticated());
+    this.router.navigate(['event']);
   }
 
   ngAfterViewInit() {

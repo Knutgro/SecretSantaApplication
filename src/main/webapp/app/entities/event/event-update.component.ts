@@ -28,6 +28,7 @@ export class EventUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     name: [],
+    description: [],
     maxLimit: [],
     minLimit: [],
     dateCreated: [],
@@ -59,6 +60,7 @@ export class EventUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: event.id,
       name: event.name,
+      description: event.description,
       maxLimit: event.maxLimit,
       minLimit: event.minLimit,
       dateCreated: event.dateCreated != null ? event.dateCreated.format(DATE_TIME_FORMAT) : null,
@@ -86,6 +88,7 @@ export class EventUpdateComponent implements OnInit {
       ...new Event(),
       id: this.editForm.get(['id']).value,
       name: this.editForm.get(['name']).value,
+      description: this.editForm.get(['description']).value,
       maxLimit: this.editForm.get(['maxLimit']).value,
       minLimit: this.editForm.get(['minLimit']).value,
       dateCreated: moment(),

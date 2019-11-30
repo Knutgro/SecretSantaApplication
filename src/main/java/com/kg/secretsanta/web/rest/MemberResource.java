@@ -1,7 +1,10 @@
 package com.kg.secretsanta.web.rest;
 
 import com.kg.secretsanta.domain.Member;
+import com.kg.secretsanta.domain.User;
 import com.kg.secretsanta.repository.MemberRepository;
+import com.kg.secretsanta.security.AuthoritiesConstants;
+import com.kg.secretsanta.service.UserService;
 import com.kg.secretsanta.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -14,7 +17,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.security.RolesAllowed;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -37,9 +39,10 @@ public class MemberResource {
     private String applicationName;
 
     private final MemberRepository memberRepository;
-
-    public MemberResource(MemberRepository memberRepository) {
+    private final UserService userService;
+    public MemberResource(MemberRepository memberRepository, UserService userService) {
         this.memberRepository = memberRepository;
+        this.userService = userService;
     }
 
     /**
@@ -76,6 +79,14 @@ public class MemberResource {
         if (member.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
+        final Optional<User> isUser = userService.getUserWithAuthorities();
+        if(!isUser.isPresent()) {
+            throw new BadRequestAlertException("no user present", "USER", "no user");
+        }
+        Member member2 = memberRepository.findMemberByUser(isUser.get());
+        if (member2 == null) {
+            throw new BadRequestAlertException("no member present", "MEMBER", "no member");
+        }
         Member result = memberRepository.save(member);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, member.getId().toString()))
@@ -89,6 +100,7 @@ public class MemberResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of members in body.
      */
     @GetMapping("/members")
+    @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
     public List<Member> getAllMembers() {
         log.debug("REST request to get all Members");
         return memberRepository.findAll();
@@ -114,6 +126,7 @@ public class MemberResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/members/{id}")
+    @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Void> deleteMember(@PathVariable Long id) {
         log.debug("REST request to delete Member : {}", id);
         memberRepository.deleteById(id);
