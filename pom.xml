@@ -1153,10 +1153,10 @@
                             <changeLogFile>src/main/resources/config/liquibase/master.xml</changeLogFile>
                             <diffChangeLogFile>src/main/resources/config/liquibase/changelog/${maven.build.timestamp}_changelog.xml</diffChangeLogFile>
                             <driver></driver>
-                            <url>jdbc:mysql://localhost:3306/SecretSantaApp?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC</url>
+                            <url>${env.JDBC_DATABASE_URL}</url>
                             <defaultSchemaName></defaultSchemaName>
-                            <username>$root</username>
-                            <password> </password>
+                            <username>${env.JDBC_DATABASE_USERNAME}</username>
+                            <password>${env.JDBC_DATABASE_PASSWORD}</password>
                             <referenceUrl>hibernate:spring:com.kg.secretsanta.domain?dialect=org.hibernate.dialect.MySQL5InnoDBDialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</referenceUrl>
                             <verbose>true</verbose>
                             <logging>debug</logging>
