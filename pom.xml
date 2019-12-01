@@ -92,7 +92,7 @@
         <junit.itReportFolder>${project.testresult.directory}/integrationTest</junit.itReportFolder>
         <env.JDBC_DATABASE_URL>jdbc:mysql://localhost:3306/SecretSantaApp</env.JDBC_DATABASE_URL>
         <env.JDBC_DATABASE_USERNAME>root</env.JDBC_DATABASE_USERNAME>
-        <env.JDBC_DATABASE_PASSWORD> </env.JDBC_DATABASE_PASSWORD>
+        <env.JDBC_DATABASE_PASSWORD></env.JDBC_DATABASE_PASSWORD>
 
         <!-- jhipster-needle-maven-property -->
     </properties>
