@@ -33,7 +33,7 @@ spring:
       enabled: false
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: mysql://eu-cdbr-west-02.cleardb.net/heroku_bce0c7fb17db69f?reconnect=true
+    url: jdbc:mysql://b9741a310b6b54:ab792cc9@eu-cdbr-west-02.cleardb.net/heroku_bce0c7fb17db69f?reconnect=true
     username: b9741a310b6b54
     password: ab792cc9
     hikari:

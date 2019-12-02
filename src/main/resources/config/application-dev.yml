@@ -36,9 +36,7 @@ spring:
       indent-output: true
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://localhost:3306/SecretSantaApp?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC
-    username: root
-    password:
+    url: jdbc:mysql://b9741a310b6b54:ab792cc9@eu-cdbr-west-02.cleardb.net/heroku_bce0c7fb17db69f?reconnect=true
     hikari:
       poolName: Hikari
       auto-commit: false
