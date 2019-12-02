@@ -1152,7 +1152,7 @@
                         <configuration combine.self="override">
                             <changeLogFile>src/main/resources/config/liquibase/master.xml</changeLogFile>
                             <diffChangeLogFile>src/main/resources/config/liquibase/changelog/${maven.build.timestamp}_changelog.xml</diffChangeLogFile>
-                            <driver>com.mysql.jdbc.Driver</driver>
+                            <driver>com.mysql.cj.jdbc.Driver</driver>
                             <url>${env.JDBC_DATABASE_URL}</url>
                             <defaultSchemaName></defaultSchemaName>
                             <username>${env.JDBC_DATABASE_USERNAME}</username>
