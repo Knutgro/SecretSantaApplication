@@ -3,6 +3,7 @@ package com.kg.secretsanta;
 import com.kg.secretsanta.config.ApplicationProperties;
 import com.kg.secretsanta.config.DefaultProfileUtil;
 
+import com.kg.secretsanta.service.EventService;
 import io.github.jhipster.config.JHipsterConstants;
 
 import org.apache.commons.lang3.StringUtils;
@@ -31,6 +32,7 @@ public class SecretSantaApp implements InitializingBean {
     public SecretSantaApp(Environment env) {
         this.env = env;
     }
+
 
     /**
      * Initializes SecretSantaApp.
@@ -94,5 +96,6 @@ public class SecretSantaApp implements InitializingBean {
             serverPort,
             contextPath,
             env.getActiveProfiles());
+
     }
 }

@@ -55,7 +55,7 @@
         </createTable>
 
         <addPrimaryKey columnNames="event_id, member_id" tableName="event_member"/>
-        
+
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 

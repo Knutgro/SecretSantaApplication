@@ -53,4 +53,13 @@ public class EventService {
         return newEvent;
 
     }
+
+    public void removeEvents(){
+        eventRepository.findAll().forEach(event -> {
+            if (event.getMembers().isEmpty()) {
+                eventRepository.delete(event);
+
+            }
+        });
+    }
 }

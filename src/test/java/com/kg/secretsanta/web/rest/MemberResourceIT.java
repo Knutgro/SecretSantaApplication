@@ -3,6 +3,7 @@ package com.kg.secretsanta.web.rest;
 import com.kg.secretsanta.SecretSantaApp;
 import com.kg.secretsanta.domain.Member;
 import com.kg.secretsanta.repository.MemberRepository;
+import com.kg.secretsanta.service.EventService;
 import com.kg.secretsanta.service.UserService;
 import com.kg.secretsanta.web.rest.errors.ExceptionTranslator;
 
@@ -64,10 +65,12 @@ public class MemberResourceIT {
 
     private UserService userService;
 
+    private EventService eventService;
+
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final MemberResource memberResource = new MemberResource(memberRepository, userService);
+        final MemberResource memberResource = new MemberResource(memberRepository, eventService, userService);
         this.restMemberMockMvc = MockMvcBuilders.standaloneSetup(memberResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

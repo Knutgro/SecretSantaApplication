@@ -35,6 +35,7 @@ export class EventComponent implements OnInit, OnDestroy {
     this.loadAll();
     this.registerChangeInEvents();
     console.log(this.account);
+    console.log(this.events);
   }
 
   ngOnDestroy() {

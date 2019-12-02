@@ -4,6 +4,7 @@ import com.kg.secretsanta.domain.Member;
 import com.kg.secretsanta.domain.User;
 import com.kg.secretsanta.repository.MemberRepository;
 import com.kg.secretsanta.security.AuthoritiesConstants;
+import com.kg.secretsanta.service.EventService;
 import com.kg.secretsanta.service.UserService;
 import com.kg.secretsanta.web.rest.errors.BadRequestAlertException;
 
@@ -39,9 +40,11 @@ public class MemberResource {
     private String applicationName;
 
     private final MemberRepository memberRepository;
+    private final EventService eventService;
     private final UserService userService;
-    public MemberResource(MemberRepository memberRepository, UserService userService) {
+    public MemberResource(MemberRepository memberRepository, EventService eventService, UserService userService) {
         this.memberRepository = memberRepository;
+        this.eventService = eventService;
         this.userService = userService;
     }
 
@@ -100,9 +103,9 @@ public class MemberResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of members in body.
      */
     @GetMapping("/members")
-    @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
     public List<Member> getAllMembers() {
         log.debug("REST request to get all Members");
+        eventService.removeEvents();
         return memberRepository.findAll();
     }
 

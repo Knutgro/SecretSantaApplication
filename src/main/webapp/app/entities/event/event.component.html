@@ -19,12 +19,12 @@
 
     <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center">
         <div fxLayout="column" fxLayoutGap="5px" fxFlex="1 1 100%">
-            <mat-card class="search" *ngFor="let event of events ;trackBy: trackId" style="margin: 2cm; width: 400px; position: center" [routerLink]="['/event', event.id, 'view' ]">
+            <div *ngIf="events?.length > 0">
+            <mat-card class="search" *ngFor="let event of events ;trackBy: trackId" style="margin: 1cm; width: 90%;" [routerLink]="['/event', event.id, 'view' ]">
                 <mat-card-title-group>
                     <mat-card-title><h1>{{event.name}}</h1></mat-card-title>
                     <mat-card-subtitle>
                         <p>{{event.description}}</p>
-                        <p>{{event.wishes.length}}</p>
                     </mat-card-subtitle>
                 </mat-card-title-group>
                 <mat-card-content style="float: left;">
@@ -35,7 +35,7 @@
                         To {{event.dateExpired?.format("DD-MM-YYYY")}}
                     </h3>
                 </mat-card-content>
-
             </mat-card>
+            </div>
         </div>
     </div>
