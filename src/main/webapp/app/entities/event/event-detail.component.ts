@@ -46,13 +46,14 @@ export class EventDetailComponent implements OnInit {
         this.gift = gift;
       }
     });
-    console.log(this.event.wishes);
-    this.event.wishes.forEach(wish => {
-      if (wish.member.id === this.gift.receivedGift.id) {
-        this.recWishes.push(wish);
-      }
-    });
 
+    if (this.event.wishes) {
+      this.event.wishes.forEach(wish => {
+        if (wish.member.id === this.gift.receivedGift.id) {
+          this.recWishes.push(wish);
+        }
+      });
+    }
     if (this.event.owned.id === this.member.id) {
       this.isOwner = true;
     }
