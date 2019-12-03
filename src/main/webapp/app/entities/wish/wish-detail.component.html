@@ -13,16 +13,11 @@
                 <dd>
                     <span>{{wish.url}}</span>
                 </dd>
-                <dt><span jhiTranslate="secretSantaApp.wish.member">Member</span></dt>
-                <dd>
-                    <div *ngIf="wish.member">
-                        <a [routerLink]="['/member', wish.member?.id, 'view']">{{wish.member?.id}}</a>
-                    </div>
-                </dd>
+
                 <dt><span jhiTranslate="secretSantaApp.wish.event">Event</span></dt>
                 <dd>
                     <div *ngIf="wish.event">
-                        <a [routerLink]="['/event', wish.event?.id, 'view']">{{wish.event?.id}}</a>
+                        <a [routerLink]="['/event', wish.event?.id, 'view']">{{wish.event?.name}}</a>
                     </div>
                 </dd>
             </dl>
@@ -37,6 +32,15 @@
                     [routerLink]="['/wish', wish.id, 'edit']"
                     class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+
+            <button type="submit"
+                    [routerLink]="['/wish', { outlets: { popup: wish.id + '/delete'} }]"
+                    replaceUrl="true"
+                    queryParamsHandling="merge"
+                    class="btn btn-danger">
+                <fa-icon [icon]="'times'"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
             </button>
         </div>
     </div>

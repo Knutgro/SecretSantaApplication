@@ -49,6 +49,7 @@ public class Event implements Serializable {
 
     @OneToMany(mappedBy = "event")
     //@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JsonIgnoreProperties("event")
     private Set<Wish> wishes = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER)

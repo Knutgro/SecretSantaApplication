@@ -13,6 +13,7 @@ import { WishService } from './wish.service';
 export class WishComponent implements OnInit, OnDestroy {
   wishes: IWish[];
   eventSubscriber: Subscription;
+  displayedColumns: string[] = ['name', 'event'];
 
   constructor(protected wishService: WishService, protected eventManager: JhiEventManager) {}
 

@@ -20,7 +20,7 @@
     <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center">
         <div fxLayout="column" fxLayoutGap="5px" fxFlex="1 1 100%">
             <div *ngIf="events?.length > 0">
-            <mat-card class="search" *ngFor="let event of events ;trackBy: trackId" style="margin: 1cm; width: 90%;" [routerLink]="['/event', event.id, 'view' ]">
+            <mat-card class="search" *ngFor="let event of events ;trackBy: trackId" style="margin: 1cm; width: 90%; position: static" [routerLink]="['/event', event.id, 'view' ]">
                 <mat-card-title-group>
                     <mat-card-title><h1>{{event.name}}</h1></mat-card-title>
                     <mat-card-subtitle>

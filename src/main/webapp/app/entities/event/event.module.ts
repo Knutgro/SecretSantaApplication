@@ -9,11 +9,22 @@ import { EventDeletePopupComponent, EventDeleteDialogComponent } from './event-d
 import { eventRoute, eventPopupRoute } from './event.route';
 import { MatCardModule } from '@angular/material/card';
 import { FlexModule } from '@angular/flex-layout';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatListModule } from '@angular/material/list';
 
 const ENTITY_STATES = [...eventRoute, ...eventPopupRoute];
 
 @NgModule({
-  imports: [SecretSantaAppSharedModule, RouterModule.forChild(ENTITY_STATES), MatCardModule, FlexModule],
+  imports: [
+    SecretSantaAppSharedModule,
+    RouterModule.forChild(ENTITY_STATES),
+    MatCardModule,
+    FlexModule,
+    MatExpansionModule,
+    MatFormFieldModule,
+    MatListModule
+  ],
   declarations: [EventComponent, EventDetailComponent, EventUpdateComponent, EventDeleteDialogComponent, EventDeletePopupComponent],
   entryComponents: [EventDeleteDialogComponent]
 })

@@ -1,0 +1,13 @@
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+.example-card {
+  max-width: 400px;
+  background-color: #eb6864;
+  color: whitesmoke;
+}
+.accord-ex {
+  background-color: #a05050;
+}
+.example-header-image {
+  background-image: url('../../../content/images/santa-icon.png');
+  background-size: cover;
+}

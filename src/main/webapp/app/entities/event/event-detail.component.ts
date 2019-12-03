@@ -11,7 +11,8 @@ import { IWish } from 'app/shared/model/wish.model';
 
 @Component({
   selector: 'jhi-event-detail',
-  templateUrl: './event-detail.component.html'
+  templateUrl: './event-detail.component.html',
+  styleUrls: ['./event-detail.component.scss']
 })
 export class EventDetailComponent implements OnInit {
   event: IEvent;
@@ -20,6 +21,7 @@ export class EventDetailComponent implements OnInit {
   account: Account;
   recWishes: IWish[] = [];
   isOwner: boolean;
+  panelOpenState = false;
 
   constructor(protected activatedRoute: ActivatedRoute, private accountService: AccountService) {}
 

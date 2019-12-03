@@ -14,6 +14,25 @@
     <div class="alert alert-warning" *ngIf="wishes?.length === 0">
         <span jhiTranslate="secretSantaApp.wish.home.notFound">No wishes found</span>
     </div>
+    <mat-table [dataSource]="wishes" class="mat-elevation-z8">
+        <!-- Position Column -->
+        <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+        </ng-container>
+
+        <!-- Name Column -->
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="event">
+            <mat-header-cell *matHeaderCellDef> Event </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.event.name}} </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;" [routerLink]="['/wish', row.id, 'view' ]"></mat-row>
+    </mat-table>
+    <!--
     <div class="table-responsive" *ngIf="wishes?.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
@@ -63,4 +82,5 @@
             </tbody>
         </table>
     </div>
+    -->
 </div>
