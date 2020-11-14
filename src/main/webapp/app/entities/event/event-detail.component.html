@@ -29,7 +29,7 @@
                 </mat-expansion-panel-header>
                 <div *ngIf="recWishes.length > 0">
                     <mat-nav-list>
-                        <a mat-list-item  *ngFor="let wish of event.wishes" href="{{wish.url}}"> {{ wish.name }} </a>
+                        <a mat-list-item  *ngFor="let wish of recWishes"  href="{{wish.url}}"> {{ wish.name }} </a>
                     </mat-nav-list>
                 </div>
                 <div *ngIf="recWishes.length === 0">

@@ -31,6 +31,10 @@ export class WishService {
     return this.http.get<IWish>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
+  findByEvent(id: number): Observable<EntityArrayResponseType> {
+    return this.http.get<IWish[]>(`${this.resourceUrl3}/${id}`, { observe: 'response' });
+  }
+
   findEvent(memberId: number, eventId: number): Observable<EntityArrayResponseType> {
     return this.http.get<IWish[]>(`${this.resourceUrl2}/${memberId}/${eventId}`, { observe: 'response' });
   }

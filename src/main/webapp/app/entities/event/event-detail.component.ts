@@ -6,8 +6,10 @@ import { Gift } from 'app/shared/model/gift.model';
 import { Member } from 'app/shared/model/member.model';
 import { Account } from 'app/core/user/account.model';
 import { AccountService } from 'app/core/auth/account.service';
+import { WishService } from 'app/entities/wish/wish.service';
 
 import { IWish } from 'app/shared/model/wish.model';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'jhi-event-detail',
@@ -23,7 +25,7 @@ export class EventDetailComponent implements OnInit {
   isOwner: boolean;
   panelOpenState = false;
 
-  constructor(protected activatedRoute: ActivatedRoute, private accountService: AccountService) {}
+  constructor(protected activatedRoute: ActivatedRoute, private accountService: AccountService, private wishService: WishService) {}
 
   ngOnInit() {
     this.isOwner = false;
@@ -54,9 +56,12 @@ export class EventDetailComponent implements OnInit {
         }
       });
     }
-    if (this.event.owned.id === this.member.id) {
-      this.isOwner = true;
+    if (this.event.owned) {
+      if (this.event.owned.id === this.member.id) {
+        this.isOwner = true;
+      }
     }
+    console.log(this.recWishes);
   }
 
   previousState() {

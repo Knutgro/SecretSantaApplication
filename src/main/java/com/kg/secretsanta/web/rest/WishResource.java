@@ -109,25 +109,21 @@ public class WishResource {
         if(!isUser.isPresent()) {
             throw new BadRequestAlertException("no user present", "USER", "no user");
         }
+
         Member member = memberRepository.findMemberByUser(isUser.get());
         return wishRepository.findAllByMember(member);
     }
 
-    /**
-     *  TODO ADD SECURITY
-     */
-    @PostMapping("/eventWishes")
-    public List<Wish> getEventWishes(@RequestBody Event event ) {
+    @GetMapping("/eventWishes/{eventId}")
+    public List<Wish> getEventWishes(@PathVariable Long eventId ) {
         log.debug("REST request to get all event wishes");
         final Optional<User> isUser = userService.getUserWithAuthorities();
         if(!isUser.isPresent()) {
             throw new BadRequestAlertException("no user present", "USER", "no user");
 
         }
-        Member member = memberRepository.findMemberByUser(isUser.get());
-        return wishRepository.findAllByMemberAndEvent(member, event);
+        return wishRepository.findAllByEvent_Id(eventId);
     }
-
     /**
      * TODO: ADD SECURITY!!
      */

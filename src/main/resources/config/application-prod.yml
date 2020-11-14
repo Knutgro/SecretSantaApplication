@@ -130,7 +130,7 @@ jhipster:
         # - In the `JHIPSTER_SECURITY_AUTHENTICATION_JWT_BASE64_SECRET` environment variable
         base64-secret: NDYwOTUxMDI5NzY2OTU0NDJlMWYyMmRkNThiMzZmMmY2ZmVkYTlkMGM4NmE0YTc4MTBhOTEyMGI1NDMyNzU3YzUxNjcyNjQ1NzI1ODc1NWQ2ODZkMjIzNzc1YjkxZTdhZmIxZTFkZDE2OTU2YzI3YzI2MDNhYzllYzVkMWU2YWQ=
         # Token is valid 24 hours
-        token-validity-in-seconds: 86400
+        token-validity-in-seconds: 259200000
         token-validity-in-seconds-for-remember-me: 2592000
   mail: # specific JHipster mail property, for standard properties see MailProperties
     base-url: https://ssappp.herokuapp.com # Modify according to your server's URL
