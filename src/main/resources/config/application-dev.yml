@@ -36,7 +36,7 @@ spring:
       indent-output: true
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://root:@localhost/secretsantaapp
+    url: jdbc:mysql://root:root@localhost/secretsantaapp
 
     hikari:
       poolName: Hikari
@@ -56,7 +56,7 @@ spring:
       hibernate.cache.use_second_level_cache: true
       hibernate.cache.use_query_cache: false
       hibernate.generate_statistics: false
-      hibernate.ddl-auto: update
+      hibernate.ddl-auto: create
 
   liquibase:
     # Remove 'faker' if you do not want the sample data to be loaded automatically
